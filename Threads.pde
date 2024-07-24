@@ -1,4 +1,4 @@
-AEC Aec; 
+AEC aec; 
 
 void setup() { 
   size(1200, 400); 
