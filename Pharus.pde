@@ -79,41 +79,25 @@ void drawPharus()
   {
     // show each track with the corresponding  id number
     for (int trackID=0; trackID < GetNumTracks(); trackID++) {
+      int ogID = tuioClient.getCursorID(trackID);
+      int x = (int)(GetX(ogID)/16.44);
+      int y = (int)(GetY(ogID)/15.38);
 
-      if (!lines.containsKey(trackID)) {
-        ArrayList<Position> temp = new ArrayList<>();
-        temp.add(new Position(GetX(trackID)/ aec.getScaleX(), GetY(trackID) / aec.getScaleY()));
-        lines.put(trackID, temp);
-      } else {
-        ArrayList<Position> temp = lines.get(trackID);
-        temp.add(new Position(GetX(trackID)/ aec.getScaleX(), GetY(trackID) / aec.getScaleY()));
-      }
+      grid[x][y].addID(ogID);
+    }
 
-      for (int id : lines.keySet()) {
-        //print(id, "\n");
-        //if (id == 0) {
-        //  stroke(red);
-        //  print("red", "\n");
-        //} else if (id == 1) {
-        //  stroke(blue);
-        //  print("blue", "\n");
-        //}
-        stroke(colors[id%7]);
-        beginShape(POINTS);
-        for (int pos = 0; pos < lines.get(id).size(); pos++) {
-          ArrayList<Position> temp = lines.get(trackID);
-          Position curr = temp.get(pos);
-          vertex(curr.x, curr.y);
+
+    for (int row = 0; row < 73; row++) {
+      for (int col = 0; col < 26; col++) {
+        if (grid[row][col].isOne()) {
+          noStroke();
+          fill(colors[grid[row][col].getFirst()]);
+          rect((int)(row + 1) * 16.44, (int)(col + 1) * 15.38, 16.44, 15.38); 
         }
-        endShape();
+        //noStroke();
+        //fill(colors[grid[row][col].getFirst()]);
+        //rect((int)(row + 1) * 16.44, (int)(col + 1) * 15.38, 16.44, 15.38); 
       }
-
-
-      //noStroke();
-      //fill(255);
-      //ellipse(GetX(trackID)/ aec.getScaleX(), GetY(trackID) / aec.getScaleY(), 3 , 4);
-      // fill(255);
-      // text(GetCursorID(trackID), GetX(trackID), GetY(trackID));
     }
   }
 
@@ -140,8 +124,7 @@ void drawPharus()
    */
 }
 
-void keyPressedPharus()
-{
+void keyPressedPharus() {
   switch(key)
   {
   case 'p':

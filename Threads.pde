@@ -13,8 +13,12 @@ color pink = color(255, 0, 255);
 
 color[] colors = {red, blue, yellow, pink, green, orange, purple}; 
 
+boolean isBlink; 
 
-HashMap<Integer, ArrayList<Position>> lines = new HashMap<>();
+//73 = width 
+//26 = height 
+LofID[][] grid = new LofID[73][26]; 
+
 
 void setup() {
   size(1200, 400);
@@ -24,6 +28,12 @@ void setup() {
 
   background(0, 0, 0);
   setupPharus();
+  
+  for (int row = 0; row < 73; row++) { 
+    for (int col = 0; col < 26; col++) { 
+      grid[row][col] = new LofID(); 
+    }
+  }
   
 }
 
@@ -43,10 +53,13 @@ void draw() {
 
   noStroke();
 
+  if (second()%2 == 0) { 
+    isBlink = true; 
+  } else { 
+    isBlink = false; 
+  }
+  
   drawPharus();
   aec.endDraw();
   aec.drawSides();
-
-
-
 }
