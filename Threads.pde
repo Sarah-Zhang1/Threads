@@ -93,12 +93,12 @@ void draw() {
   for (int row = 0; row < r; row++ ) {
     for (int col = 0; col < c; col++ ) {
       if (col <= 40 && col >= 30) {
-        grid[row][col] = face[row][col-30];
-      } else if (col <= 30 && col >= 20) {
-        grid[row][col] = face[row][col-20];
-      } else if (col <= 20 && col >= 10) {
-        grid[row][col] = face[row][col-10];
-      } else if (col <= 10 && col >= 0) {
+        grid[row][col] = face[row-30][col];
+      } else if (row <= 30 && row >= 20) {
+        grid[row][col] = face[row-20][col];
+      } else if (row <= 20 && row >= 10) {
+        grid[row][col] = face[row-10][col];
+      } else if (row <= 10 && row >= 0) {
         grid[row][col] = face[row][col];
       }
     }
