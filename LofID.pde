@@ -21,9 +21,22 @@ class LofID {
     }
   }
   
-  boolean isOne() { 
-    return ids.size() == 1; 
+  int sizeID() { 
+    return ids.size(); 
   }
+  
+  boolean isMoreThanOne() {
+    if (ids.size() > 1) { 
+      int temp = ids.get(0); 
+      for (int i = 1; i < ids.size(); i++) { 
+        if (ids.get(i) != temp){
+          return true; 
+        }
+      }
+    }
+    return false; 
+  }
+  
   
 
 }

@@ -77,26 +77,13 @@ void drawPharus()
 
   if (ShowTrack)
   {
-    // show each track with the corresponding  id number
-    for (int trackID=0; trackID < GetNumTracks(); trackID++) {
-      int ogID = tuioClient.getCursorID(trackID);
-      int x = (int)(GetX(ogID)/16.44);
-      int y = (int)(GetY(ogID)/15.38);
-
-      grid[x][y].addID(ogID);
-    }
-
-
-    for (int row = 0; row < 73; row++) {
-      for (int col = 0; col < 26; col++) {
-        if (grid[row][col].isOne()) {
-          noStroke();
-          fill(colors[grid[row][col].getFirst()]);
-          rect((int)(row + 1) * 16.44, (int)(col + 1) * 15.38, 16.44, 15.38); 
-        }
-        //noStroke();
-        //fill(colors[grid[row][col].getFirst()]);
-        //rect((int)(row + 1) * 16.44, (int)(col + 1) * 15.38, 16.44, 15.38); 
+    for(TuioCursor cu: tuioClient.getTuioCursorList()) {  
+      int id = cu.getCursorID(); 
+      int x = (int)(cu.getScreenX(width)/aec.getScaleX()); 
+      int y = (int)(cu.getScreenY(height)/aec.getScaleY()); 
+      
+      if (x >= 30 && x <= 40) { 
+        face[x-30][y].addID(id);
       }
     }
   }
