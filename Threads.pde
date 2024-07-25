@@ -1,96 +1,52 @@
 AEC aec;
 int scale;
-int x1; 
-int y1; 
 
 
-int x2; 
-int y2; 
+color red = color(255, 0, 0); 
+color orange = color(255, 146, 0);
+color yellow = color(255, 255, 0);
+color green = color(0, 255, 0);
+color blue = color(0, 180, 255);
+color purple = color(155, 60, 255);
+color pink = color(255, 0, 255); 
 
-int lastX; 
-int lastY; 
+
+color[] colors = {red, blue, yellow, pink, green, orange, purple}; 
+
+
+HashMap<Integer, ArrayList<Position>> lines = new HashMap<>();
 
 void setup() {
   size(1200, 400);
-  scale = 0;
 
   aec = new AEC();
   aec.init();
+
+  background(0, 0, 0);
+  setupPharus();
   
-  x1 = 30; 
-  y1 = 0; 
-  
-  
-  x2 = 40; 
-  y2 = 0;
-  
-  lastX = 40; 
-  lastY = 0; 
-  
-  frameRate(5);
 }
 
 
 void draw() {
+
   aec.beginDraw();
 
+  
+  //background(0, 0, 0);
+  stroke(255, 126, 0); 
   strokeWeight(0.5);
-  stroke(color (255, 0, 0)); 
-  
-  //float rand = random(1, 3);
-  if (x1 < 41) { 
-    x1++;  
-    x2 -= 2;
-  } 
-  
-  if (y1 < 21) { 
-    y1 += 2;
-    if (y2 % 2 == 0) { 
-       y2 += 3;
-    } else { 
-      y2 += 1;
-    }
-    
-    
-  }
+  line(10, 0, 10, 20); 
+  line(20, 0, 20, 20); 
+  line(30, 0, 30, 20); 
 
-  line (30, 0, x1, y1); 
- 
-
-  
-  
-  stroke(color (144, 230, 255));
-  line(lastX, lastY, x2, y2);
-
-  lastX = x2; 
-  lastY = y2; 
-
-  if (second() % 3 == 0) {
-    if (scale < 50) {
-      scale++;
-    }
-  }
 
   noStroke();
 
-  ////green
-  //fill(color (0, 255, 0, 125));
-  //ellipse(38, 5, scale/aec.getScaleX(), scale/aec.getScaleX());
-
-
-  ////orange
-  //fill(color (255, 127, 0, 125));
-  //ellipse(38, 15, scale/aec.getScaleX(), scale/aec.getScaleX());
-
-
-  //purple
-  fill(color (255, 0, 255, 125));
-  ellipse(33.5, 7.5, scale/aec.getScaleX(), scale/aec.getScaleX());
-
-
-
-
-
+  drawPharus();
   aec.endDraw();
   aec.drawSides();
+
+
+
 }
