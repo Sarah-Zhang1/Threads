@@ -46,6 +46,16 @@ class LofID {
     return ids; 
   }
   
+  boolean containsID(int id) { 
+    for (int i = 0; i < ids.size(); i++ ){ 
+      if (ids.get(i) == id) { 
+        return true; 
+      }
+    }
+    
+    return false; 
+  }
+  
   
   boolean hasOne() { 
     if (ids.size() == 1) { 

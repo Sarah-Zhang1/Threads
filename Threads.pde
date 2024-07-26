@@ -205,6 +205,7 @@ color mixColors(ArrayList<Integer> ids) {
   int rtemp = 0;
   int gtemp = 0;
   int btemp = 0;
+  println("size: " + ids.size());
   for (int i = 0; i < ids.size(); i++ ) {
     color c = colors[ids.get(i)%7];
     rtemp += red(c);

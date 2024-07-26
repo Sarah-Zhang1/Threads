@@ -43,8 +43,9 @@ void drawPharus()
       int x = (int)(cu.getScreenX(width)/120); 
       int y = (int)(cu.getScreenY(height)/14.8) + 2; 
       
-      face[x][y].addID(id);
-    
+      if (!face[x][y].containsID(id)) { 
+         face[x][y].addID(id);
+      }
     }
   }
 }
