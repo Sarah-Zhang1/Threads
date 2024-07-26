@@ -44,6 +44,7 @@ void drawPharus()
       int y = (int)(cu.getScreenY(height)/14.8) + 2; 
       
       face[x][y].addID(id);
+    
     }
   }
 }

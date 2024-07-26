@@ -37,6 +37,10 @@ class LofID {
     return false; 
   }
   
+  int getSize() { 
+    return ids.size(); 
+  }
+  
   
 
 }
