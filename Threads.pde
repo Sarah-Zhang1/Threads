@@ -1,13 +1,7 @@
 AEC aec;
+boolean shouldGrow;
 
-PFont font1; 
-float FONT_SCALE_X = 2.669;
-float FONT_SCALE_Y = 2.67;
 
-// some parameters that turned out to work best for the font we're using
-float FONT_SIZE = 6;
-
-String message = "CONNECT.";
 
 float scale;
 
@@ -33,7 +27,6 @@ LofID[][] grid;
 void setup() {
   size(1200, 400);
 
-  font1 = createFont("FreePixel.ttf", 9, false);
   scale = 1;
   aec = new AEC();
   aec.init();
@@ -43,8 +36,11 @@ void setup() {
 
   r = 1200/aec.getScaleX(); //75
   //c = 400/aec.getScaleY(); //50
-  c = (int)(400/14.8) + 2; //27
+  c = (int)(400/14.8) + 3; //27
   
+  shouldGrow = false;
+ 
+
   face = new LofID[11][c];
   grid = new LofID[r][c];
   for (int row = 0; row < r; row++) {
@@ -67,11 +63,11 @@ void draw() {
 
 
   background(0);
-  
- 
-  drawPharus(); 
-  
-  //repeating face patterns to all sides of the facade 
+
+
+  drawPharus();
+
+  //repeating face patterns to all sides of the facade
   for (int row = 0; row < r; row++ ) {
     for (int col = 0; col < c; col++ ) {
       if (row <= 40 && row >= 30) {
@@ -85,18 +81,21 @@ void draw() {
       }
     }
   }
-  
-  
-  //drawing paths 
+
+
+  //drawing paths
   for (int row = 0; row < r; row++) {
     for (int col = 2; col < c; col++) {
-      //TODO check to see if the ellipse works 
+      println("row: " + row);
+      println("col: " + col);
       if (grid[row][col].isMoreThanOne()) {
         noStroke();
         fill(255);
-        ellipse((int)(row - 0.5), (int)(col - 0.5), scale, scale);
+        rectMode(CENTER);
+        rect((int)(row - 0.5), (int)(col - 0.5), scale, scale);
       } else if (grid[row][col].sizeID() > 0) {
         noStroke();
+        rectMode(CORNER);
         fill(colors[grid[row][col].getFirst()]);
         rect((int)(row - 1), (int)(col - 1), 1, 1);
       }
@@ -104,29 +103,15 @@ void draw() {
   }
 
 
-  //if (second()%15 == 0) {
-  //  scale += 1;
-  //}
-
-  //displayText(); 
+  if (second()%59 == 0) {
+     shouldGrow = true; 
+  }
+  
+  if(shouldGrow) { 
+    scale += 1; 
+    shouldGrow = !shouldGrow; 
+  }
 
   aec.endDraw();
   aec.drawSides();
 }
-
-
-
-void displayText() { 
-  scale(FONT_SCALE_X,FONT_SCALE_Y);
-  textFont(font1);
-  textSize(FONT_SIZE);
-  
-  text("C", 65, 20); 
-  text("O", 70, 20); 
-  text("N", 75, 20); 
-  text("N", 80, 20); 
-  text("E", 85, 20); 
-  text("C", 90, 20); 
-  text("T", 95, 20); 
-  text(".", 100, 20); 
-} 
