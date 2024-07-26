@@ -12,7 +12,7 @@ color purple = color(155, 60, 255);
 color pink = color(255, 0, 255);
 
 
-color[] colors = {red, blue, green};
+color[] colors = {red, blue, yellow, pink, green, orange, purple};
 
 int r;
 int c;
@@ -102,7 +102,7 @@ void draw() {
         if (grid[row][col].hasOne()) {
           noStroke();
           rectMode(CENTER);
-          fill(colors[grid[row][col].getFirst()%3]);
+          fill(colors[grid[row][col].getFirst()]);
           rect((row - rectOffsetPath), (col - rectOffsetPath), 1, 1);
           rect((row - rectOffsetPath + 10), (col - rectOffsetPath), 1, 1);
           rect((row - rectOffsetPath + 20), (col - rectOffsetPath), 1, 1);
@@ -210,16 +210,18 @@ boolean isFilled() {
 
 //mixes the colors for all the ids
 color mixColors(ArrayList<Integer> ids) {
-  int currColor = 0; 
-  println(ids.size());
-  for (int i = 0; i < ids.size(); i++ ) { 
- 
-    color c = colors[ids.get(i)%3];
-    currColor += c; 
-
+  int rtemp = 0;
+  int gtemp = 0;
+  int btemp = 0;
+  int count = 0; 
+  for (int i = 0; i < ids.size(); i++ ) {
+    count++; 
+    color c = colors[ids.get(i)%7];
+    rtemp += red(c);
+    gtemp += green(c);
+    btemp += blue(c);
+   
   }
-  println ("r: " + red(currColor)); 
-  println ("g: " + green(currColor)); 
-  println ("b: " + blue(currColor)); 
-  return currColor;
+
+  return color(rtemp/count, gtemp/count, btemp/count);
 }
