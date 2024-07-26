@@ -40,12 +40,10 @@ void drawPharus()
   if (ShowTrack) {
     for(TuioCursor cu: tuioClient.getTuioCursorList()) {  
       int id = cu.getCursorID(); 
-      int x = (int)(cu.getScreenX(width)/aec.getScaleX()); 
-      int y = (int)(cu.getScreenY(height)/aec.getScaleY()); 
+      int x = (int)(cu.getScreenX(width)/120); 
+      int y = (int)(cu.getScreenY(height)/14.8) + 2; 
       
-      if (x >= 30 && x <= 40) { 
-        face[x-30][y].addID(id);
-      }
+      face[x][y].addID(id);
     }
   }
 }

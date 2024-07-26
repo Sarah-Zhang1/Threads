@@ -1,4 +1,14 @@
 AEC aec;
+
+PFont font1; 
+float FONT_SCALE_X = 2.669;
+float FONT_SCALE_Y = 2.67;
+
+// some parameters that turned out to work best for the font we're using
+float FONT_SIZE = 6;
+
+String message = "CONNECT.";
+
 float scale;
 
 color red = color(255, 0, 0);
@@ -23,7 +33,7 @@ LofID[][] grid;
 void setup() {
   size(1200, 400);
 
-
+  font1 = createFont("FreePixel.ttf", 9, false);
   scale = 1;
   aec = new AEC();
   aec.init();
@@ -31,9 +41,10 @@ void setup() {
   background(0);
   setupPharus();
 
-  r = 1200/aec.getScaleX();
-  c = 400/aec.getScaleY();
-
+  r = 1200/aec.getScaleX(); //75
+  //c = 400/aec.getScaleY(); //50
+  c = (int)(400/14.8) + 2; //27
+  
   face = new LofID[11][c];
   grid = new LofID[r][c];
   for (int row = 0; row < r; row++) {
@@ -43,7 +54,7 @@ void setup() {
   }
 
   for (int row = 0; row < 11; row++) {
-    for (int col = 0; col < c; col++ ) {
+    for (int col = 2; col < c; col++ ) {
       face[row][col] = new LofID();
     }
   }
@@ -78,13 +89,12 @@ void draw() {
   
   //drawing paths 
   for (int row = 0; row < r; row++) {
-    for (int col = 0; col < c; col++) {
+    for (int col = 2; col < c; col++) {
       //TODO check to see if the ellipse works 
       if (grid[row][col].isMoreThanOne()) {
-        print("Entereed");
         noStroke();
         fill(255);
-        ellipse((int)(row - 1), (int)(col - 1), scale, scale);
+        ellipse((int)(row - 0.5), (int)(col - 0.5), scale, scale);
       } else if (grid[row][col].sizeID() > 0) {
         noStroke();
         fill(colors[grid[row][col].getFirst()]);
@@ -94,11 +104,29 @@ void draw() {
   }
 
 
-  if (second()%15 == 0) {
-    scale += 1;
-  }
+  //if (second()%15 == 0) {
+  //  scale += 1;
+  //}
 
+  //displayText(); 
 
   aec.endDraw();
   aec.drawSides();
 }
+
+
+
+void displayText() { 
+  scale(FONT_SCALE_X,FONT_SCALE_Y);
+  textFont(font1);
+  textSize(FONT_SIZE);
+  
+  text("C", 65, 20); 
+  text("O", 70, 20); 
+  text("N", 75, 20); 
+  text("N", 80, 20); 
+  text("E", 85, 20); 
+  text("C", 90, 20); 
+  text("T", 95, 20); 
+  text(".", 100, 20); 
+} 
