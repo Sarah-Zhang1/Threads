@@ -78,7 +78,7 @@ void draw() {
 
     //repeating face patterns to all sides of the facade
     for (int row = 0; row < r; row++ ) {
-      for (int col = 0; col < c; col++ ) {
+      for (int col = 2; col < c; col++ ) {
         if (row <= 40 && row >= 30) {
           grid[row][col] = face[row-30][col];
         } else if (row <= 30 && row >= 20) {
@@ -95,15 +95,14 @@ void draw() {
     //drawing paths
     for (int row = 0; row < r; row++) {
       for (int col = 2; col < c; col++) {
-        println("entered");
         if (grid[row][col].hasOne()) {
           noStroke();
           rectMode(CENTER);
           fill(colors[grid[row][col].getFirst()]);
-          rect((int)(row - 1), (int)(col - 1), 1, 1);
-          rect((int)(row - 1 + 10), (int)(col - 1), 1, 1);
-          rect((int)(row - 1 + 20), (int)(col - 1), 1, 1);
-          rect((int)(row - 1 + 30), (int)(col - 1), 1, 1);
+          rect((int)(row ), (int)(col), 1, 1);
+          rect((int)(row + 10), (int)(col), 1, 1);
+          rect((int)(row  + 20), (int)(col), 1, 1);
+          rect((int)(row + 30), (int)(col), 1, 1);
         }
       }
     }
@@ -119,6 +118,7 @@ void draw() {
           if (doesExist(row, col)) {
             Intersection temp = intersectionPoints.get(getPositionFromList(row, col));
             noStroke();
+            //println(grid[row][col].getIDS().); 
             fill(mixColors(grid[row][col].getIDS()));
             rectMode(CENTER);
             rect((int)(row - 0.5), (int)(col - 0.5), temp.getSize(), temp.getSize());
