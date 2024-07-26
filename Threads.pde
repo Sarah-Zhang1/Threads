@@ -54,6 +54,8 @@ void setup() {
       face[row][col] = new LofID();
     }
   }
+  
+  frameRate(25);
 }
 
 
@@ -67,9 +69,15 @@ void draw() {
 
 
   drawPharus();
-
-  if (isFilled()) {
+  if (frameCount%7500 ==0) {
+    println("entered");
     background(0);
+    for (int row = 0; row < 11; row++) {
+      for (int col = 2; col < c; col++ ) {
+        face[row][col] = new LofID();
+      }
+    }
+
     for (int row = 0; row < r; row++) {
       for (int col = 0; col < c; col++) {
         grid[row][col] = new LofID();
@@ -93,7 +101,7 @@ void draw() {
     }
 
 
-  float rectOffsetPath = 0.5;
+    float rectOffsetPath = 0.5;
 
 
     //drawing paths
@@ -102,7 +110,7 @@ void draw() {
         if (grid[row][col].hasOne()) {
           noStroke();
           rectMode(CENTER);
-          fill(colors[grid[row][col].getFirst()]);
+          fill(colors[grid[row][col].getFirst()%7]);
           rect((row - rectOffsetPath), (col - rectOffsetPath), 1, 1);
           rect((row - rectOffsetPath + 10), (col - rectOffsetPath), 1, 1);
           rect((row - rectOffsetPath + 20), (col - rectOffsetPath), 1, 1);
@@ -123,7 +131,7 @@ void draw() {
           if (doesExist(row, col)) {
             Intersection temp = intersectionPoints.get(getPositionFromList(row, col));
             noStroke();
-            //println(grid[row][col].getIDS().); 
+            //println(grid[row][col].getIDS().);
             fill(mixColors(grid[row][col].getIDS()));
             rectMode(CENTER);
             rect((row - rectOffset), (col - rectOffset), temp.getSize(), temp.getSize());
@@ -193,12 +201,18 @@ Position getPositionFromList(int row, int col) {
 //check to see if the whole facade has at least one id in each cell
 boolean isFilled() {
   boolean filled = true;
-  for (int row = 0; row < r; row++) {
-    for (int col = 2; col < c; col++) {
+  for (int row = 0; row < 11; row++) {
+    for (int col = 2; col < c-3; col++) {
       int x = row * aec.getScaleX();
       int y = (int) (col * 14.8);
+
+      println(x, ",", y, red(c), green(c), blue(c));
+
       color c = get(x, y);
-      if (black != c) {
+      //println("red: " + red(c));
+      //println("green: " + green(c));
+      //println("blue: " + blue(c));
+      if (red(c) ==0 && green(c) == 0 && blue(c) ==0) {
         filled = false;
       }
     }
@@ -213,14 +227,13 @@ color mixColors(ArrayList<Integer> ids) {
   int rtemp = 0;
   int gtemp = 0;
   int btemp = 0;
-  int count = 0; 
+  int count = 0;
   for (int i = 0; i < ids.size(); i++ ) {
-    count++; 
+    count++;
     color c = colors[ids.get(i)%7];
     rtemp += red(c);
     gtemp += green(c);
     btemp += blue(c);
-   
   }
 
   return color(rtemp/count, gtemp/count, btemp/count);
