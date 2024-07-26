@@ -61,6 +61,7 @@ void draw() {
 
   aec.beginDraw();
 
+  push();
 
   background(0);
 
@@ -92,6 +93,9 @@ void draw() {
     }
 
 
+  float rectOffsetPath = 0.5;
+
+
     //drawing paths
     for (int row = 0; row < r; row++) {
       for (int col = 2; col < c; col++) {
@@ -99,15 +103,16 @@ void draw() {
           noStroke();
           rectMode(CENTER);
           fill(colors[grid[row][col].getFirst()]);
-          rect((int)(row ), (int)(col), 1, 1);
-          rect((int)(row + 10), (int)(col), 1, 1);
-          rect((int)(row  + 20), (int)(col), 1, 1);
-          rect((int)(row + 30), (int)(col), 1, 1);
+          rect((row - rectOffsetPath), (col - rectOffsetPath), 1, 1);
+          rect((row - rectOffsetPath + 10), (col - rectOffsetPath), 1, 1);
+          rect((row - rectOffsetPath + 20), (col - rectOffsetPath), 1, 1);
+          rect((row - rectOffsetPath + 30), (col - rectOffsetPath), 1, 1);
         }
       }
     }
   }
 
+  float rectOffset = 0.5;
 
   //drawing intersections
   for (int row = 0; row < r; row++) {
@@ -121,10 +126,10 @@ void draw() {
             //println(grid[row][col].getIDS().); 
             fill(mixColors(grid[row][col].getIDS()));
             rectMode(CENTER);
-            rect((int)(row - 0.5), (int)(col - 0.5), temp.getSize(), temp.getSize());
-            rect((int)(row - 0.5 + 10), (int)(col - 0.5), temp.getSize(), temp.getSize());
-            rect((int)(row - 0.5 + 20), (int)(col - 0.5), temp.getSize(), temp.getSize());
-            rect((int)(row - 0.5 + 30), (int)(col - 0.5), temp.getSize(), temp.getSize());
+            rect((row - rectOffset), (col - rectOffset), temp.getSize(), temp.getSize());
+            rect((row - rectOffset + 10), (col - rectOffset), temp.getSize(), temp.getSize());
+            rect((row - rectOffset + 20), (col - rectOffset), temp.getSize(), temp.getSize());
+            rect((row - rectOffset + 30), (col - rectOffset), temp.getSize(), temp.getSize());
           } else {
             Position temp = new Position(row, col);
             LofPosition.add(temp);
@@ -132,10 +137,10 @@ void draw() {
             noStroke();
             fill(mixColors(grid[row][col].getIDS()));
             rectMode(CENTER);
-            rect((int)(row - 0.5), (int)(col - 0.5), 1, 1);
-            rect((int)(row - 0.5 + 10), (int)(col - 0.5), 1, 1);
-            rect((int)(row - 0.5 + 20), (int)(col - 0.5), 1, 1);
-            rect((int)(row - 0.5 + 30), (int)(col - 0.5), 1, 1);
+            rect((row - rectOffset), (col - rectOffset), 1, 1);
+            rect((row - rectOffset + 10), (col - rectOffset), 1, 1);
+            rect((row - rectOffset + 20), (col - rectOffset), 1, 1);
+            rect((row - rectOffset + 30), (col - rectOffset), 1, 1);
           }
         }
       }
@@ -151,7 +156,10 @@ void draw() {
       intersectionPoints.put(p, new Intersection (val.getTime(), val.getSize() + 1));
     }
   }
+
+  pop();
   aec.endDraw();
+
   aec.drawSides();
 }
 
