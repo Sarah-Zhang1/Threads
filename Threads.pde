@@ -1,6 +1,7 @@
 AEC aec;
 
 float scale;
+color black = color(0);
 
 color red = color(255, 0, 0);
 color orange = color(255, 146, 0);
@@ -74,6 +75,7 @@ void draw() {
       }
     }
   } else {
+
     //repeating face patterns to all sides of the facade
     for (int row = 0; row < r; row++ ) {
       for (int col = 0; col < c; col++ ) {
@@ -93,59 +95,67 @@ void draw() {
     //drawing paths
     for (int row = 0; row < r; row++) {
       for (int col = 2; col < c; col++) {
-
-        if (row >= 0 && row <= 10) {
-          if (grid[row][col].isMoreThanOne()) {
-            //if the intersection point already exists
-            if (doesExist(row, col)) {
-              Intersection temp = intersectionPoints.get(getPositionFromList(row, col));
-              noStroke();
-              fill(255);
-              rectMode(CENTER);
-              rect((int)(row - 0.5), (int)(col - 0.5), temp.getSize(), temp.getSize());
-              rect((int)(row - 0.5 + 10), (int)(col - 0.5), temp.getSize(), temp.getSize());
-              rect((int)(row - 0.5 + 20), (int)(col - 0.5), temp.getSize(), temp.getSize());
-              rect((int)(row - 0.5 + 30), (int)(col - 0.5), temp.getSize(), temp.getSize());
-            } else {
-              Position temp = new Position(row, col);
-              LofPosition.add(temp);
-              intersectionPoints.put(temp, new Intersection(millis()));
-              noStroke();
-              fill(255);
-              rectMode(CENTER);
-              rect((int)(row - 0.5), (int)(col - 0.5), 1, 1);
-              rect((int)(row - 0.5 + 10), (int)(col - 0.5), 1, 1);
-              rect((int)(row - 0.5 + 20), (int)(col - 0.5), 1, 1);
-              rect((int)(row - 0.5 + 30), (int)(col - 0.5), 1, 1);
-            }
-          } else if (grid[row][col].sizeID() > 0) {
-            noStroke();
-            rectMode(CENTER);
-            fill(colors[grid[row][col].getFirst()]);
-            rect((int)(row - 1), (int)(col - 1), 1, 1);
-            rect((int)(row - 1 + 10), (int)(col - 1), 1, 1);
-            rect((int)(row - 1 + 20), (int)(col - 1), 1, 1);
-            rect((int)(row - 1 + 30), (int)(col - 1), 1, 1);
-          }
+        println("entered");
+        if (grid[row][col].hasOne()) {
+          noStroke();
+          rectMode(CENTER);
+          fill(colors[grid[row][col].getFirst()]);
+          rect((int)(row - 1), (int)(col - 1), 1, 1);
+          rect((int)(row - 1 + 10), (int)(col - 1), 1, 1);
+          rect((int)(row - 1 + 20), (int)(col - 1), 1, 1);
+          rect((int)(row - 1 + 30), (int)(col - 1), 1, 1);
         }
-      }
-    }
-
-
-
-
-    for (Position p : intersectionPoints.keySet()) {
-      Intersection val = intersectionPoints.get(p);
-      if ((millis() - val.getTime()) % 1500 == 0) {
-        intersectionPoints.put(p, new Intersection (val.getTime(), val.getSize() + 1));
       }
     }
   }
 
 
+  //drawing intersections
+  for (int row = 0; row < r; row++) {
+    for (int col = 2; col < c; col++) {
+      if (row >= 0 && row <= 10) {
+        if (grid[row][col].isMoreThanOne()) {
+          //if the intersection point already exists
+          if (doesExist(row, col)) {
+            Intersection temp = intersectionPoints.get(getPositionFromList(row, col));
+            noStroke();
+            fill(mixColors(grid[row][col].getIDS()));
+            rectMode(CENTER);
+            rect((int)(row - 0.5), (int)(col - 0.5), temp.getSize(), temp.getSize());
+            rect((int)(row - 0.5 + 10), (int)(col - 0.5), temp.getSize(), temp.getSize());
+            rect((int)(row - 0.5 + 20), (int)(col - 0.5), temp.getSize(), temp.getSize());
+            rect((int)(row - 0.5 + 30), (int)(col - 0.5), temp.getSize(), temp.getSize());
+          } else {
+            Position temp = new Position(row, col);
+            LofPosition.add(temp);
+            intersectionPoints.put(temp, new Intersection(millis()));
+            noStroke();
+            fill(mixColors(grid[row][col].getIDS()));
+            rectMode(CENTER);
+            rect((int)(row - 0.5), (int)(col - 0.5), 1, 1);
+            rect((int)(row - 0.5 + 10), (int)(col - 0.5), 1, 1);
+            rect((int)(row - 0.5 + 20), (int)(col - 0.5), 1, 1);
+            rect((int)(row - 0.5 + 30), (int)(col - 0.5), 1, 1);
+          }
+        }
+      }
+    }
+  }
+
+
+
+
+  for (Position p : intersectionPoints.keySet()) {
+    Intersection val = intersectionPoints.get(p);
+    if ((millis() - val.getTime()) % 1500 == 0) {
+      intersectionPoints.put(p, new Intersection (val.getTime(), val.getSize() + 1));
+    }
+  }
   aec.endDraw();
   aec.drawSides();
 }
+
+
 
 
 
@@ -177,11 +187,42 @@ boolean isFilled() {
   boolean filled = true;
   for (int row = 0; row < r; row++) {
     for (int col = 2; col < c; col++) {
-      if (grid[row][col].getSize() < 1) {
+      int x = row * aec.getScaleX();
+      int y = (int) (col * 14.8);
+      color c = get(x, y);
+      if (black != c) {
         filled = false;
       }
     }
   }
 
   return filled;
+}
+
+
+//mixes the colors for all the ids
+color mixColors(ArrayList<Integer> ids) {
+  int rtemp = 0;
+  int gtemp = 0;
+  int btemp = 0;
+  for (int i = 0; i < ids.size(); i++ ) {
+    color c = colors[ids.get(i)%7];
+    rtemp += red(c);
+    gtemp += green(c);
+    btemp += blue(c);
+
+    if (rtemp > 255) {
+      rtemp = 255;
+    }
+
+    if (gtemp > 255) {
+      gtemp = 255;
+    }
+
+    if (btemp > 255) {
+      btemp = 255;
+    }
+  }
+
+  return color(rtemp, gtemp, btemp);
 }

@@ -42,5 +42,26 @@ class LofID {
   }
   
   
+  ArrayList<Integer> getIDS() { 
+    return ids; 
+  }
+  
+  
+  boolean hasOne() { 
+    if (ids.size() == 1) { 
+      return true; 
+    } else if (ids.size() > 1) { 
+      int curr = ids.get(0); 
+      for (int i = 1; i < ids.size(); i++) {  
+        if (curr != ids.get(i)){ 
+          return false; 
+        }
+      }
+      return true; 
+    } else { 
+      return false;
+    } 
+  } 
+  
 
 }
