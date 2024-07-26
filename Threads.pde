@@ -1,7 +1,4 @@
 AEC aec;
-boolean shouldGrow;
-
-
 
 float scale;
 
@@ -23,6 +20,7 @@ LofID[][] face;
 LofID[][] grid;
 
 
+int startTime; 
 
 void setup() {
   size(1200, 400);
@@ -38,8 +36,7 @@ void setup() {
   //c = 400/aec.getScaleY(); //50
   c = (int)(400/14.8) + 3; //27
   
-  shouldGrow = false;
- 
+  startTime = millis(); 
 
   face = new LofID[11][c];
   grid = new LofID[r][c];
@@ -86,8 +83,6 @@ void draw() {
   //drawing paths
   for (int row = 0; row < r; row++) {
     for (int col = 2; col < c; col++) {
-      println("row: " + row);
-      println("col: " + col);
       if (grid[row][col].isMoreThanOne()) {
         noStroke();
         fill(255);
@@ -95,7 +90,7 @@ void draw() {
         rect((int)(row - 0.5), (int)(col - 0.5), scale, scale);
       } else if (grid[row][col].sizeID() > 0) {
         noStroke();
-        rectMode(CORNER);
+        rectMode(CENTER);
         fill(colors[grid[row][col].getFirst()]);
         rect((int)(row - 1), (int)(col - 1), 1, 1);
       }
@@ -103,14 +98,11 @@ void draw() {
   }
 
 
-  if (second()%59 == 0) {
-     shouldGrow = true; 
+  if ((millis() - startTime)%1500 == 0) {
+     scale += 1; 
   }
   
-  if(shouldGrow) { 
-    scale += 1; 
-    shouldGrow = !shouldGrow; 
-  }
+  
 
   aec.endDraw();
   aec.drawSides();
